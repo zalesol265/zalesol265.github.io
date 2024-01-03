@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olivia Zaleski - Personal Website</title>
+    <link rel="stylesheet" href="static/css/blender.css">
+    <script src="https://kit.fontawesome.com/fc5e6a4287.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body>
+<!-- 
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#blender">Blender</a>
+    </nav> -->
+
+    <div id="image-track" data-mouse-down-at="0" data-prev-percentage="0">
+        <img class="image" src="static\img\blender\icecream9.1.png" draggable="false" />
+        <img class="image" src="static\img\blender\wand3.png" draggable="false" />
+        <img class="image" src="static\img\blender\sword3.png" draggable="false" />
+        <img class="image" src="static\img\blender\icecream8.1.png" draggable="false" />
+        <img class="image" src="static\img\blender\wand2.png" draggable="false" />
+        <img class="image" src="static\img\blender\icecream10.1.png" draggable="false" />
+        <img class="image" src="static\img\blender\icecream13.1.png" draggable="false" />
+    </div>
+
+  <script>
+    const track = document.getElementById("image-track");
+
+    const handleOnDown = e => track.dataset.mouseDownAt = e.clientX;
+
+    const handleOnUp = () => {
+    track.dataset.mouseDownAt = "0";  
+    track.dataset.prevPercentage = track.dataset.percentage;
+    }
+
+    const handleOnMove = e => {
+    if(track.dataset.mouseDownAt === "0") return;
+    
+    const mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX,
+            maxDelta = window.innerWidth / 2;
+    
+    const percentage = (mouseDelta / maxDelta) * -100,
+            nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage,
+            nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+    
+    track.dataset.percentage = nextPercentage;
+    
+    track.animate({
+        transform: `translate(${nextPercentage}%, -50%)`
+    }, { duration: 1200, fill: "forwards" });
+    
+    for(const image of track.getElementsByClassName("image")) {
+        image.animate({
+        objectPosition: `${100 + nextPercentage}% center`
+        }, { duration: 1200, fill: "forwards" });
+    }
+    }
+
+    /* -- Had to add extra lines for touch events -- */
+
+    window.onmousedown = e => handleOnDown(e);
+
+    window.ontouchstart = e => handleOnDown(e.touches[0]);
+
+    window.onmouseup = e => handleOnUp(e);
+
+    window.ontouchend = e => handleOnUp(e.touches[0]);
+
+    window.onmousemove = e => handleOnMove(e);
+
+    window.ontouchmove = e => handleOnMove(e.touches[0]);
+  </script>
+</body>

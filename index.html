@@ -1,1 +1,56 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olivia Zaleski - Personal Website</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://kit.fontawesome.com/fc5e6a4287.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div id="menu">
+        <div id="menu-items">
+          <!-- I made these divs instead of links so you can click on mobile to view the effect -->
+          <div class="menu-item">About</div>
+          <div class="menu-item">Projects</div>
+          <div class="menu-item">Blender</div>
+          <div class="menu-item">Contact</div>
+        </div>
+        <div id="menu-background-pattern"></div>
+        <div id="menu-background-image"></div>
+      </div>
+
+      
+    <section id="profile-section">
+        <div>
+            <div id="profile-image"></div>
+        </div>
+        <div>
+            <h1>Hey there! 👋</h1>
+            <h2>I'm Olivia and I have 10 years experience as a programmer.</h2>
+            <h2>I work as a software engineer with a background in cs, management, and data science.</h2>
+            <a href="blender.html">
+                <button class="meta-link" type="button">
+                    View blender renders  
+                    <i class="fa-solid fa-angle-right"></i>
+                </button>
+            </a>
+        </div>
+    </section> 
+
+    <script>
+
+        const menu = document.getElementById("menu");
+    
+        Array.from(document.getElementsByClassName("menu-item"))
+          .forEach((item, index) => {
+            item.onmouseover = () => {
+              menu.dataset.activeIndex = index;
+            }
+          });
+    </script>
+</body>
+</html>
