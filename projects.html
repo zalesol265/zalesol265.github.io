@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Personal Website</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+
+        }
+
+        #mini-view-box {
+            width: 15vw;
+            height: 20vh;
+            border: 1px solid purple;
+            position: fixed;
+            transition: top 0.2s ease-out;
+            z-index: 4;
+        }
+
+        #mini-content {
+            width: 15vw;
+            height: 0px;
+            background-color: #bebebe;
+            color: #fff;
+            position: fixed;
+            top: 30vh;
+            transition: top 0.2s ease-out;
+            margin-left: 2rem;
+        }
+
+        .col-1-2 {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+        }
+
+        .col-1-2>div {
+            justify-content: center;
+        }
+
+        .mini-content-div {
+            width: 15vw;
+            height: 20%;
+            border: 1px solid black;
+            color: black;
+        }
+
+        .mini-content-div>p {
+            padding-left: 10px;
+            font-size: small;
+        }
+
+        .main-content-div {
+            width: 100%;
+            height: 100vh;
+            border: 1px solid black;
+        }
+
+        .main-content-div>p {
+            padding-left: 70px;
+            padding-top: 30px;
+            font-size: 50px;
+        }
+
+        .col-1{
+            min-width: 27vw;
+        }
+
+        .col-2 {
+            min-width: 60vw;
+        }
+    </style>
+</head>
+
+<body id="project-body">
+
+    <div class="col-1-2">
+        <div class="col-1">
+            <div id="mini-content">
+                <div id="mini-view-box"></div>
+                <div class="mini-content-div">
+                    <p>Section I</p>
+                </div>
+                <div class="mini-content-div">
+                    <p>Section II</p>
+                </div>
+                <div class="mini-content-div">
+                    <p>Section III</p>
+                </div>
+                <div class="mini-content-div">
+                    <p>Section IV</p>
+                </div>
+                <div class="mini-content-div">
+                    <p>Section V</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="main-content-div">
+                <p>Section I</p>
+            </div>
+            <div class="main-content-div">
+                <p>Section II</p>
+            </div>
+            <div class="main-content-div">
+                <p>Section III</p>
+            </div>
+            <div class="main-content-div">
+                <p>Section IV</p>
+            </div>
+            <div class="main-content-div">
+                <p>Section V</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () { setMiniContentStartingPosition() });
+        window.addEventListener('scroll', function () { updateMiniContentPositions() });
+
+        function setMiniContentStartingPosition() {
+            var miniContent = document.getElementById('mini-content');
+            miniContent.style.height = (document.body.scrollHeight * 0.2) + 'px';
+        }
+
+        function adjustMiniViewBoxPos(progress, miniContent) {
+            var miniViewBox = document.getElementById('mini-view-box');
+            var newPosition = (progress * ((parseInt(miniContent.style.height)) - window.innerHeight * .2)) + miniContent.getBoundingClientRect().top;
+            miniViewBox.style.top = newPosition + 'px';
+        }
+
+        function adjustMiniContentBodyPos(progress) {
+            var miniContent = document.getElementById('mini-content');
+            var miniContentOverflow = (window.innerHeight * .3 + parseInt(miniContent.style.height)) - window.innerHeight + 30;
+            var pixelsToMove = progress * miniContentOverflow;
+            miniContent.style.top = ((window.innerHeight * .3) - pixelsToMove) + 'px';
+            return miniContent
+        }
+
+        function getScrollProgress() {
+            var curScroll = window.scrollY; // cur position
+            var totalScroll = document.body.scrollHeight - window.innerHeight; // max range
+            var progress = curScroll / totalScroll; // What % has already been scrolled
+            return progress;
+        }
+
+        function updateMiniContentPositions() {
+            curScrollProgress = getScrollProgress();
+            adjustedMiniContent = adjustMiniContentBodyPos(curScrollProgress);
+            adjustMiniViewBoxPos(curScrollProgress, adjustedMiniContent);
+        }
+    </script>
+</body>
+
+</html>
